@@ -1,1 +1,44 @@
-<h2>Hello</h2>
+<div class="container mt-3" style="width: 500px;">
+  <div class="d-flex justify-content-center">
+    <div class="input-group mb-3">      
+      <select class="custom-select" id="inputGroupSelect01">
+        <option selected>類別</option>
+        {{#each categories}}
+        <option value="{{ this.name }}">{{ this.name }}</option>
+        {{/each}}
+      </select>
+    </div>
+  </div>
+</div>
+<div class="container" style="width: 850px;">  
+  <ul class="list-group list-group-striped list-group-flush">
+    <div class="d-flex justify-content-center">
+      <li class="d-flex list-group-item justify-content-between" style="width: 500px;">
+        <big class="font-weight-bold">總金額：</big>
+        <span style="font-size: 50px; color:#FF6600">{{ totalAmount }}</span>
+      </li>
+    </div>
+    {{#each records}}
+    <div class="d-flex justify-content-end">      
+      <li class="list-group-item" style="width: 500px;">
+        <div class="row align-items-center">
+          <div class="col-2" style="text-align: end; color:cornflowerblue">{{{ this.icon }}}</div>
+          <div class="col-8">
+            <div style="font-size: 20px; font-weight:bold">{{ this.name }}</div>
+            <small>{{moment this.date format="YYYY-MM-DD"}}</small>
+          </div>
+          <big class="col-2" style="text-align: end;">{{ this.amount }}</big>
+        </div>        
+      </li>
+      <div class="row align-items-center ml-3">
+        <div class="col-auto">
+          <a class="btn btn-success" href="./records/{{ this._id }}/edit">Edit</a>
+          <form action="./records/{{ this._id }}?_method=DELETE" method="POST" style="display: inline;">
+            <button type="submit" class="btn btn-danger">Delete</button>
+          </form>
+        </div>
+      </div>      
+    </div>
+    {{/each}}
+  </ul>
+</div>
