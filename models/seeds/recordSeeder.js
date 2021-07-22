@@ -23,7 +23,7 @@ const records = [
     name: '電影：驚奇隊長',
     category: '休閒娛樂',
     date: '2019/04/23',
-    amount: 120
+    amount: 220
   },
   {
     name: '租金',
