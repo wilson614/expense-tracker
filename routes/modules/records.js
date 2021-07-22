@@ -4,9 +4,10 @@ const Category = require('../../models/category')
 const Record = require('../../models/record')
 
 router.get('/new', (req, res) => {
+  const today = new Date()
   Category.find()
     .lean()
-    .then(categories => res.render('new', { categories }))
+    .then(categories => res.render('new', { categories, today }))
     .catch(error => console.log(error))
 })
 
