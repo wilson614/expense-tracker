@@ -25,4 +25,36 @@ router.delete('/:id', (req, res) => {
     .catch(error => console.log(error))
 })
 
+router.get('/:id/edit', (req, res) => {
+  const id = req.params.id
+  const categories = []
+  Category.find()
+    .lean()
+    .then(category => categories.push(...category))
+    .catch(error => console.log(error))
+
+  Record.findById(id)
+    .lean()
+    .then(record => {
+      const restCategories = categories.filter((category) => category.name !== record.category)
+      res.render('edit', { record, restCategories })
+    })
+    .catch(error => console.log(error))
+})
+
+router.put('/:id', (req, res) => {
+  const { name, date, category, amount } = req.body
+  const id = req.params.id
+  Record.findById(id)
+    .then(record => {
+      record.name = name
+      record.date = date
+      record.category = category
+      record.amount = amount
+      return record.save()
+    })
+    .then(res.redirect('/'))
+    .catch(error => console.log(error))
+})
+
 module.exports = router
