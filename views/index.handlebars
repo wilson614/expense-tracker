@@ -10,35 +10,33 @@
     </div>
   </div>
 </div>
-<div class="container" style="width: 850px;">  
-  <ul class="list-group list-group-striped list-group-flush">
-    <div class="d-flex justify-content-center">
-      <li class="d-flex list-group-item justify-content-between" style="width: 500px;">
-        <big class="font-weight-bold">總金額：</big>
-        <span style="font-size: 50px; color:#FF6600">{{ totalAmount }}</span>
-      </li>
+<div class="container" style="width: 850px;">
+  <div class="d-flex justify-content-center">
+    <div class="d-flex justify-content-between" style="width: 500px;">
+      <big class="font-weight-bold">總金額：</big>
+      <span class="px-2" style="font-size: 70px; color:#FF6600">{{ totalAmount }}</span>
     </div>
+  </div>
+  <ul class="list-group list-group-striped list-group-flush">
     {{#each records}}
-    <div class="d-flex justify-content-end">      
-      <li class="list-group-item" style="width: 500px;">
-        <div class="row align-items-center">
+    <li class="list-group-item p-0 border-0">
+      <div class="row">
+        <div class="col-9 d-flex align-items-center p-3">
           <div class="col-2" style="text-align: end; color:cornflowerblue">{{{ this.icon }}}</div>
           <div class="col-8">
             <div style="font-size: 20px; font-weight:bold">{{ this.name }}</div>
             <small>{{ moment this.date format="YYYY-MM-DD" }}</small>
           </div>
           <big class="col-2" style="text-align: end;">{{ this.amount }}</big>
-        </div>        
-      </li>
-      <div class="row align-items-center ml-3">
-        <div class="col-auto">
-          <a class="btn btn-success" href="./records/{{ this._id }}/edit">Edit</a>
+        </div>
+        <div class="col-3 control d-flex justify-content-end align-items-center">
+          <a class="btn btn-success mr-3" href="./records/{{ this._id }}/edit">修改</a>
           <form action="./records/{{ this._id }}?_method=DELETE" method="POST" style="display: inline;">
-            <button type="submit" class="btn btn-danger">Delete</button>
+            <button type="submit" class="btn btn-danger">刪除</button>
           </form>
         </div>
-      </div>      
-    </div>
+      </div>
+    </li>
     {{/each}}
   </ul>
 </div>

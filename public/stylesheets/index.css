@@ -1,0 +1,12 @@
+ul.list-group.list-group-striped li:nth-of-type(odd){
+    background: rgb(238, 238, 238);
+}
+
+.control{
+    background-color: white;
+}
+
+ul.list-group{
+    padding-left: 150px;
+}
+
