@@ -22,7 +22,7 @@ router.delete('/:id', (req, res) => {
   const id = req.params.id
   Record.findById(id)
     .then(record => record.remove())
-    .then(() => res.redirect('/'))
+    .then(() => res.redirect(req.get('referer')))
     .catch(error => console.log(error))
 })
 
