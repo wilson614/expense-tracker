@@ -11,42 +11,46 @@ router.get('/', (req, res) => {
 
   Category.find()
     .lean()
-    .then(category => categories.push(...category))
-    .catch(error => console.log(error))
-
-  Record.find()
-    .lean()
-    .then(record => {
-      records.push(...record)
-      records.forEach(record => {
-        const category = categories.find(category => category.name === record.category)
-        record.icon = category.icon
-        totalAmount += record.amount
-      })
-      res.render('index', { records, categories, totalAmount })
+    .then(category => {
+      categories.push(...category)
+      Record.find()
+        .lean()
+        .then(record => {
+          records.push(...record)
+          records.forEach(record => {
+            const category = categories.find(category => category.name === record.category)
+            record.icon = category.icon
+            totalAmount += record.amount
+          })
+          res.render('index', { records, categories, totalAmount })
+        })
+        .catch(error => console.log(error))
     })
     .catch(error => console.log(error))
 })
 
 router.get('/filter', (req, res) => {
-  const category = req.query.category
+  const categoryFilter = req.query.category
   const categories = []
   const records = []
+  totalAmount = 0
 
   Category.find()
     .lean()
-    .then(category => categories.push(...category))
-    .catch(error => console.log(error))
-
-  Record.find({ category })
-    .lean()
-    .then(record => {
-      records.push(...record)
-      records.forEach(record => {
-        const category = categories.find(category => category.name === record.category)
-        record.icon = category.icon
-      })
-      res.render('index', { records, categories, totalAmount, category })
+    .then(category => {
+      categories.push(...category)
+      Record.find({ category: categoryFilter })
+        .lean()
+        .then(record => {
+          records.push(...record)
+          records.forEach(record => {
+            const category = categories.find(category => category.name === record.category)
+            record.icon = category.icon
+            totalAmount += record.amount
+          })
+          res.render('index', { records, categories, totalAmount, categoryFilter })
+        })
+        .catch(error => console.log(error))
     })
     .catch(error => console.log(error))
 })
