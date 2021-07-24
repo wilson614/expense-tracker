@@ -2,7 +2,7 @@
   <div class="d-flex justify-content-center">
     <div class="input-group mb-3">      
       <select class="custom-select" id="inputGroupSelect01" onchange="window.location.href=this.value">
-        <option selected>{{#if category}}{{ category }}{{else}}類別{{/if}}</option>
+        <option selected>{{#if categoryFilter}}{{ categoryFilter }}{{else}}類別{{/if}}</option>
         {{#each categories}}
         <option value="/filter?category={{ this.name }}">{{ this.name }}</option>
         {{/each}}
@@ -32,7 +32,7 @@
         <div class="col-3 control d-flex justify-content-end align-items-center">
           <a class="btn btn-success mr-3" href="./records/{{ this._id }}/edit">修改</a>
           <form action="./records/{{ this._id }}?_method=DELETE" method="POST" style="display: inline;">
-            <button type="submit" class="btn btn-danger">刪除</button>
+            <button type="submit" class="btn btn-danger" onclick="return confirm('確定要刪除嗎？')">刪除</button>
           </form>
         </div>
       </div>
