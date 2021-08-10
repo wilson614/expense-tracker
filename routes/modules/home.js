@@ -5,6 +5,7 @@ const Record = require('../../models/record')
 let totalAmount = 0
 
 router.get('/', (req, res) => {
+  const userId = req.user._id
   const categories = []
   const records = []
   totalAmount = 0
@@ -13,7 +14,7 @@ router.get('/', (req, res) => {
     .lean()
     .then(category => {
       categories.push(...category)
-      Record.find()
+      Record.find({ userId })
         .lean()
         .then(record => {
           records.push(...record)
@@ -31,6 +32,7 @@ router.get('/', (req, res) => {
 
 router.get('/filter', (req, res) => {
   const categoryFilter = req.query.category
+  const userId = req.user._id
   const categories = []
   const records = []
   totalAmount = 0
@@ -39,7 +41,7 @@ router.get('/filter', (req, res) => {
     .lean()
     .then(category => {
       categories.push(...category)
-      Record.find({ category: categoryFilter })
+      Record.find({ userId, category: categoryFilter })
         .lean()
         .then(record => {
           records.push(...record)
