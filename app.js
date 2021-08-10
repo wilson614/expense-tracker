@@ -8,6 +8,7 @@ require('./config/mongoose')
 const routes = require('./routes')
 const app = express()
 const port = process.env.PORT || 3000
+const usePassport = require('./config/passport')
 
 app.engine('handlebars', exphbs({ defaultLayout: 'main' }))
 app.set('view engine', 'handlebars')
@@ -19,6 +20,7 @@ app.use(session({
   resave: false,
   saveUninitialized: true
 }))
+usePassport(app)
 app.use(routes)
 
 app.listen(port, () => {
