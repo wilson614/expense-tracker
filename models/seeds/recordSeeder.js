@@ -1,17 +1,33 @@
+const bcrypt = require('bcrypt')
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config()
+}
 const db = require('../../config/mongoose')
 const Record = require('../record')
+const User = require('../user')
+
+const defaultUsers = [
+  {
+    name: 'user',
+    email: 'user@example.com',
+    password: '12345678'
+  }
+]
+
 const records = [
   {
     name: '午餐',
     category: '餐飲食品',
     date: '2019/04/23',
-    amount: 60
+    amount: 60,
+    merchant: '7-11'
   },
   {
     name: '晚餐',
     category: '餐飲食品',
     date: '2019/04/23',
-    amount: 60
+    amount: 60,
+    merchant: '全家'
   },
   {
     name: '捷運',
@@ -23,7 +39,8 @@ const records = [
     name: '電影：驚奇隊長',
     category: '休閒娛樂',
     date: '2019/04/23',
-    amount: 220
+    amount: 220,
+    merchant: '國賓影城'
   },
   {
     name: '租金',
@@ -34,11 +51,21 @@ const records = [
 ]
 
 db.once('open', () => {
-  Record.create(records)
+  Promise.all(Array.from(defaultUsers, (defaultUser) => {
+    const { name, email, password } = defaultUser
+    return bcrypt.genSalt(10)
+      .then(salt => bcrypt.hash(password, salt))
+      .then(hash => User.create({ name, email, password: hash }))
+      .then(user => {
+        return Promise.all(Array.from(records, (record) => {
+          const { name, category, date, amount, merchant } = record
+          const userId = user._id
+          return Record.create({ name, category, date, amount, merchant, userId })
+        }))
+      })
+  }))
     .then(() => {
       console.log('recordSeeder done!')
-      db.close()
-    }).then(() => {
-      console.log('database connection closed!')
+      process.exit()
     })
 })
