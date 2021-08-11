@@ -10,7 +10,8 @@ router.get('/login', (req, res) => {
 
 router.post('/login', passport.authenticate('local', {
   successRedirect: '/',
-  failureRedirect: '/users/login'
+  failureRedirect: '/users/login',
+  failureFlash: true
 }))
 
 router.get('/register', (req, res) => {
@@ -32,7 +33,7 @@ router.post('/register', (req, res) => {
   User.findOne({ email })
     .then(user => {
       if (user) {
-        console.log('此信箱已註冊！')
+        errors.push({ message: '此信箱已註冊！' })
         return res.render('register', { name, email, password, confirmPassword })
       }
       bcrypt.genSalt()
