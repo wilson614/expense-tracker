@@ -28,11 +28,19 @@ const categories = [
 ]
 
 db.once('open', () => {
-  Category.create(categories)
-    .then(() => {
-      console.log('categorySeeder done!')
-      db.close()
-    }).then(() => {
-      console.log('database connection closed!')
+  Category.findOne({ name: categories[0].name })
+    .then(category => {
+      if (category) {
+        console.log('已經建立過類別種子資料囉！')
+        db.close()
+      } else {
+        Category.create(categories)
+          .then(() => {
+            console.log('categorySeeder done!')
+            db.close()
+          }).then(() => {
+            console.log('database connection closed!')
+          })
+      }
     })
 })
