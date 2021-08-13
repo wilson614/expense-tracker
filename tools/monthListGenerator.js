@@ -1,5 +1,6 @@
-module.exports = function generateMonthList (monthList) {
+module.exports = function generateMonthList () {
   const today = new Date()
+  const monthList = []
   for (let i = 0; i < 12; i++) {
     let year = today.getFullYear()
     let month = today.getMonth() + 1
@@ -15,4 +16,5 @@ module.exports = function generateMonthList (monthList) {
       monthList.push(`${year}-${month}`)
     }
   }
+  return monthList
 }

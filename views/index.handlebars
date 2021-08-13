@@ -4,6 +4,7 @@
       <div class="input-group mb-3 mr-1">
         <select class="custom-select" id="month" name="month" onchange="submit()">
           {{#if monthFilter}}
+          <option value="">月份</option>
           <option value="{{ monthFilter }}" selected>{{ monthFilter }}</option>
           {{else}}          
           <option value="" selected>月份</option>
@@ -16,11 +17,12 @@
       <div class="input-group mb-3 ml-1">
         <select class="custom-select" id="category" name="category" onchange="submit()">
           {{#if categoryFilter}}
+          <option value="">類別</option>
           <option value="{{ categoryFilter }}" selected>{{ categoryFilter }}</option>
           {{else}}
           <option value="" selected>類別</option>
           {{/if}}
-          {{#each categories}}
+          {{#each categoryList}}
           <option value="{{ this.name }}">{{ this.name }}</option>
           {{/each}}
         </select>

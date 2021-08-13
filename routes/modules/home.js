@@ -11,13 +11,13 @@ router.get('/', (req, res) => {
   const records = []
   totalAmount = 0
 
-  const months = []
-  monthListGenerator(months)
+  const months = monthListGenerator()
 
   Category.find()
     .lean()
     .then(category => {
       categories.push(...category)
+      const categoryList = categories
       Record.find({ userId })
         .lean()
         .then(record => {
@@ -27,7 +27,7 @@ router.get('/', (req, res) => {
             record.icon = category.icon
             totalAmount += record.amount
           })
-          res.render('index', { records, categories, totalAmount, months })
+          res.render('index', { records, categories, totalAmount, months, categoryList })
         })
         .catch(error => console.log(error))
     })
@@ -42,13 +42,14 @@ router.get('/filter', (req, res) => {
   let records = []
   totalAmount = 0
 
-  const months = []
-  monthListGenerator(months)
+  const monthList = monthListGenerator()
+  const months = monthList.filter(month => month !== monthFilter)
 
   Category.find()
     .lean()
     .then(category => {
       categories.push(...category)
+      const categoryList = categories.filter(category => category.name !== categoryFilter)
       Record.find({ userId })
         .lean()
         .then(record => {
@@ -64,7 +65,7 @@ router.get('/filter', (req, res) => {
             record.icon = category.icon
             totalAmount += record.amount
           })
-          res.render('index', { records, categories, totalAmount, categoryFilter, months, monthFilter })
+          res.render('index', { records, categories, totalAmount, categoryFilter, months, monthFilter, categoryList })
         })
         .catch(error => console.log(error))
     })
